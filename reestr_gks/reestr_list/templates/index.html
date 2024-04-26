@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            Заголовок страницы
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+<div>
+    <p>Пользователь: {% for user in users %} {{ user.username }} {% endfor %} </p> 
+    <p>последняя авторизация {% for user in users %} {{ user.last_login }} {% endfor %}</p>
+    
+</div>
+
+{% block body %}
+
+{% endblock body %}
+
+<div>
+    <p>Сайт работает {{ time_working }}</p>
+    {% now 'l' as current_weekday %}
+    <p>Московское время {% now 'H:i' %}, сегодня {{ current_weekday }} </p>
+</div>
+
+
+</body>
+</html>
