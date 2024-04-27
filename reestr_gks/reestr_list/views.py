@@ -1,5 +1,23 @@
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Register, Pover
+from timeit import default_timer
 
-def index(request):
-    return HttpResponse('test page')
+
+def index(request: HttpRequest):
+    
+    context = {
+        'time_working': str(int(default_timer()) // 60) + ' минут',
+        'users': User.objects.all(),
+    }
+    return render(request, 'index.html', context=context)
+
+def reestr_list(request: HttpRequest):
+    
+    context = {
+        'registers': Register.objects.all(),
+        'povers': Pover.objects.all(),
+    }
+    return render(request, 'reestr_list/list.html', context=context)
+

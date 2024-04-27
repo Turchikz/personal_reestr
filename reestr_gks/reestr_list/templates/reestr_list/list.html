@@ -1,9 +1,32 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 
 {% block title %}
     Реестр
 {% endblock title %}
 
 {% block body %}
-    {% lorem 1 p random %}
+    <div>
+    {% if registers %}
+    {% for register in registers %}
+        <div>
+            <p>{{ register.id_numb }}</p>
+            <p>{{ register.date }}</p>
+        </div>    
+    {% endfor %}
+    {% else %}
+    Нет записей в реестре
+    {% endif %}
+    </div>
+
+    <div>Список поверителей:
+    {% if povers %}
+        {% for pover in povers %}
+            <div>
+                <ul>{{ pover.povername }}</ul>
+            </div>    
+        {% endfor %}
+    {% else %}
+        Нет поверителей
+    {% endif %}
+    </div>
 {% endblock body %}
