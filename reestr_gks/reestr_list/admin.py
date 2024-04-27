@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from .models import *
+from .admin_mixins import ExporAsCSVMixin
 
 @admin.register(DescriptionType)
 class DescriptionTypeAdmin(admin.ModelAdmin):
@@ -69,7 +70,10 @@ class EtalonInline(admin.StackedInline):
     model = Register.etalons.through
 
 @admin.register(Register)
-class RegisterAdmin(admin.ModelAdmin):
+class RegisterAdmin(admin.ModelAdmin, ExporAsCSVMixin):
+    actions = [
+        "export_csv"
+    ]
     inlines = [
         EtalonInline,
     ]
@@ -78,6 +82,8 @@ class RegisterAdmin(admin.ModelAdmin):
     search_fields = ('date', 'id_numb', 'descr',)  # поиск
     list_filter = ('date', 'descr',)  # фильтрация
     ordering = ('id_numb',)
+    date_hierarchy = 'date'
+    filter_horizontal = ['etalons']
 
     def get_queryset(self, request):
         return Register.objects.select_related('descr').prefetch_related('etalons')
