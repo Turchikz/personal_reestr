@@ -1,0 +1,5 @@
+/reestr_gks/reestr_list/__pycache__
+/reestr_gks/reestr_gks/__pycache__
+/reestr_gks/reestr_list/migrations/*
+/reestr_gks/reestr_list/management/commands/__pycache__
+.venv/*
