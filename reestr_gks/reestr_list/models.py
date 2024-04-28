@@ -119,16 +119,13 @@ class User(models.Model):
 
 
 class Register(models.Model):
-    date = models.DateField('Дата поверки', null=False, blank=False)
-    descr = models.ForeignKey(DescriptionType, on_delete=models.PROTECT, verbose_name="Описание типа",
-                              help_text='выберите описание типа', null=False, blank=False)
     id_numb = models.SlugField('Номер протокола', max_length=10, db_index=True, null=True, blank=True)
-
-    modif = models.ForeignKey(Modification, on_delete=models.PROTECT, verbose_name="Модификация",
-                              help_text='выберите модификацию', blank=True, null=True)
-
-    method = models.ForeignKey(Methodika, on_delete=models.PROTECT, verbose_name="Методика поверки",
-                                   help_text='выберите методику поверки', blank=True, null=True)
+    class Kinds(models.TextChoices):
+        perv = 'первичная', 'первичная'
+        period = 'периодическая', 'периодическая'
+        __empty__='выберите'
+    kind = models.CharField(max_length=50, choices=Kinds.choices, default=Kinds.period, verbose_name='Вид поверки', blank=True, null=True)
+    date = models.DateField('Дата поверки', null=False, blank=False)
     mpi = models.CharField(max_length=10, choices=(
         ('1 год', '1'),
         ('2 года', '2'),
@@ -137,36 +134,37 @@ class Register(models.Model):
         ('5 лет', '5'),
         ('6 лет', '6'),
     ), verbose_name='Межповерочный интервал', null=True, blank=True)
+    until = models.DateField('Действительно до', blank=True, null=True)
     name = models.ForeignKey(Name, on_delete=models.PROTECT, verbose_name="Наименование средства измерений", blank=True,
                              null=True)
+    modif = models.ForeignKey(Modification, on_delete=models.PROTECT, verbose_name="Модификация",
+                              help_text='выберите модификацию', blank=True, null=True)
     owner = models.ForeignKey(Owner, on_delete=models.PROTECT, related_name="+", verbose_name="Владелец СИ, ИНН",
                               default=None, blank=True, null=True)
+    povername = models.ForeignKey(Pover, on_delete=models.PROTECT, verbose_name="Поверитель", blank=True, null=True)
     place = models.ForeignKey(Places, on_delete=models.PROTECT, verbose_name="Место проведения поверки", 
                           default=None, blank=True, null=True)
-
-    povername = models.ForeignKey(Pover, on_delete=models.PROTECT, verbose_name="Поверитель", blank=True, null=True)
-    until = models.DateField('Действительно до', blank=True, null=True)
+    descr = models.ForeignKey(DescriptionType, on_delete=models.PROTECT, verbose_name="Описание типа",
+                              help_text='выберите описание типа', null=False, blank=False)
     number = models.CharField('Заводской номер', max_length=50, blank=True, null=True)
+    composition = models.CharField('Состав СИ', max_length=500, blank=True, null=True)
+    method = models.ForeignKey(Methodika, on_delete=models.PROTECT, verbose_name="Методика поверки",
+                                   help_text='выберите методику поверки', blank=True, null=True)
     etalons = models.ManyToManyField(Etalon, related_name='etalons', blank=True)
-
     temp_val = models.DecimalField('Температура', default=22.0, max_digits=3, decimal_places=1, null=True, blank=True)
-
     class TempKind(models.TextChoices):
         cel = '°С', '°С'
         kel = 'К', 'К'
-        # __empty__='выберите'
-
+        __empty__='выберите'
     temp_kind = models.CharField('Ед.изм. температуры', max_length=100, choices=TempKind.choices,
                                  default=TempKind.cel,
                                  blank=True, null=True)
     temp_t = ('temp_cal', 'temp_kind')
     press_val = models.DecimalField('Давление', default=101.2, max_digits=4, decimal_places=1, blank=True, null=True)
-
     class PresKind(models.TextChoices):
         kpa = 'кПа', 'кПа'
         mmrs = 'мм.рт.ст.', 'мм.рт.ст.'
-        # __empty__='выберите'
-
+        __empty__='выберите'
     press_kind = models.CharField('Ед.изм. давления', max_length=10, choices=PresKind.choices, default=PresKind.kpa,
                                   blank=True, null=True)
     hum_val = models.DecimalField('Влажность', default=45.0, max_digits=3, decimal_places=1, blank=True)
@@ -174,7 +172,6 @@ class Register(models.Model):
     others = models.CharField('Другие условия поверки', max_length=100, blank=True, null=True)
     d_min = models.CharField('Нижний диапазон', max_length=100, null=True, blank=True)
     d_max = models.CharField('Верхний диапазон', max_length=100, null=True, blank=True)
-
     class EdIzmKind(models.TextChoices):
         kpa = 'кПа', 'кПа'
         mpa = 'МПа', 'МПа'
@@ -190,19 +187,15 @@ class Register(models.Model):
         vol = '% об. д.', '% об. д.'
         ppm = 'ppm', 'ppm'
         __empty__ = 'выберите единицы измерения'
-
     ed_izm = models.CharField('Единицы измерения', max_length=100, choices=EdIzmKind.choices, null=True, blank=True)
     other_range = models.CharField('Другой диапазон', max_length=100, null=True, blank=True)
     pogr_val = models.CharField('Погрешность', max_length=100, blank=True, null=True)
-
     class PogrKind(models.TextChoices):
         abs = 'абсолютная', 'абсолютная'
         otn = 'относительная', 'относительная'
         priv = 'приведённая', 'приведённая'
-
     pogr_kind = models.CharField('Единицы измерения погрешности', max_length=100, choices=PogrKind.choices,
                                  blank=True, null=True)
-
     impl_name = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Исполнитель", blank=True,
                                   null=True)
     publish = models.DateTimeField('Создано', default=timezone.now)
@@ -217,11 +210,6 @@ class Register(models.Model):
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='reestr_posts', blank=True, null=True)
     objects = models.Manager()  # менеджер, применяемый по умолчанию
     
-    class Kinds(models.TextChoices):
-        perv = 'первичная', 'первичная'
-        period = 'периодическая', 'периодическая'
-        __empty__='выберите'
-    kind = models.CharField(max_length=50, choices=Kinds.choices, default=Kinds.period, verbose_name='Вид поверки', blank=True, null=True)
 
 
     class Meta:

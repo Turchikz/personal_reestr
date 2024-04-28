@@ -21,3 +21,10 @@ def reestr_list(request: HttpRequest):
     }
     return render(request, 'reestr_list/list.html', context=context)
 
+def add_to_reestr(request: HttpRequest):
+    
+    context = {
+        'registers': Register.objects.all(),
+    }
+    return render(request, 'reestr_list/add_to_reestr.html', context=context)
+
