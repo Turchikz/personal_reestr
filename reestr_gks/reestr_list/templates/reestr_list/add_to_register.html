@@ -6,6 +6,73 @@
 
 {% block body %}
 <div>
-    
+    <form action="" method="post"></form>
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th>Номер протокола</th>
+            <th>Вид поверки</th>
+            <th>Дата поверки</th>
+            <th>МПИ</th>
+            <th>Действительно до</th>
+            <th>Наименование средства измерений</th>
+            <th>Модификация</th>
+            <th>Владелец СИ, ИНН</th>
+            <th>Поверитель</th>
+            <th>Место проведения поверки</th>
+            <th>№ ГРСИ</th>
+            <th>Зав. №</th>
+            <th>Состав СИ</th>
+            <th>Методика поверки</th>
+            <th>Эталоны</th>
+            <th>Температура</th>
+            <th>Давление</th>
+            <th>Влажность</th>
+            <th>Другие параметры</th>
+            <th>Диапазон</th>
+            <th>Погрешность</th>
+            <th>Исполнитель</th>
+        </tr>
+        <tr>
+            <td>
+                {{ form.id_numb }}
+            </td>
+            <td>
+                {{ form.kind }}
+            </td>
+            <td>
+                {{ form.date }}
+            </td>
+            <td>
+                {{ form.mpi }}
+            </td>
+            <td>
+                {{ form.until }}
+            </td>
+            <td>
+                {{ form.name }}
+            </td>
+            <td>
+                {{ form.modif }}
+            </td>
+            <td>
+                {{ form.owner }}
+            </td>
+            <td>
+                {{ form.povername }}
+            </td>
+            <td>
+                {{ form.place }}
+            </td>
+            <td>
+                {{ form.descr }}
+            </td>
+            <td>
+                {{ form.number }}
+            </td>
+        </tr>
+    </table>
+           
+
 </div>
 {% endblock body %}

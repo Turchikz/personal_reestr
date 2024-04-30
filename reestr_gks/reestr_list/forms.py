@@ -5,23 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.models import modelformset_factory
 
-
-class AuthForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    date_of_birth = forms.DateField(required=True, help_text='Дата рождения')
-
-
-class ExtendedRegisterForm(UserCreationForm):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    date_of_birth = forms.DateField(required=True, help_text='Дата рождения')
-
-
-
-
-class RegisterForm(ModelForm):
-    # Type_mod = forms.ModelMultipleChoiceField(queryset=Approved.objects.filter())
+class Add_to_register(ModelForm):
 
     class Meta:
         model = Register
@@ -96,20 +80,11 @@ class RegisterForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
+        super(Add_to_register, self).__init__(*args, **kwargs)
         self.fields['etalons'] = ModelChoiceField(queryset=Register.objects.all(), empty_label="Choose a countries", )
 
 
-class RegisterAllForm(forms.Form):
-    class Meta:
-        model = Register
-
-        fields = ['kind', 'date', 'apr_mpi', 'until', 'name', 'modif', 'owner',
-                  'povername', 'place', 'descr', 'number', 'apr_method', 'etalons', 'temp_val', 'temp_kind',
-                  'press_val', 'press_kind', 'hum_val', 'hum_kind', 'others', 'd_min', 'd_max', 'impl_name'
-                  ]
-
 
 AddFormSet = modelformset_factory(
-    Register, extra=1, fields='__all__', form=RegisterForm,
+    Register, extra=1, fields='__all__', form=Add_to_register,
 )

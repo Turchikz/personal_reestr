@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from .models import Register, Pover
 from timeit import default_timer
 from django.views.generic import TemplateView
-from .forms import AddFormSet
+from .forms import AddFormSet, Add_to_register
 from django.urls import reverse_lazy
 
 
@@ -28,6 +28,7 @@ def add_to_register(request: HttpRequest):
     
     context = {
         'registers': Register.objects.all(),
+        'form': Add_to_register(),
     }
     return render(request, 'reestr_list/add_to_register.html', context=context)
 
