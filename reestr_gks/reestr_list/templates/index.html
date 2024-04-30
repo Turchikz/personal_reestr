@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,20 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         {% block title %}
-            Заголовок страницы
+            Главная страница
         {% endblock %}
     </title>
+    <link rel=icon  href="{%  static 'reestr_list/img/favicon.png' %}" sizes=16x32>
+    <link href="{%  static 'reestr_list/css/reestr_list.css' %}" rel="stylesheet">
 </head>
 <body>
 
 <div>
-    <p>Пользователь: {% for user in users %} {{ user.username }} {% endfor %} </p> 
-    <p>последняя авторизация {% for user in users %} {{ user.last_login }} {% endfor %}</p>
-    
+    <a class='navbar-logo' title="Переход на сайт ГКС" href="http://ms.nppgks.com/main.php"><img src="{%  static 'reestr_list/img/logo_white.svg' %}" height="70rem" loading="lazy" alt="Лого компании"> </a>
+    <li>
+    <a aria-current="page" title="Главная" href="{% url 'reestr_list:index' %}"> Главная</a>
+    </li>
+    <li>
+    <a aria-current="page" title="Реестр" href="{% url 'reestr_list:reestr' %}"> Реестр</a>
+    </li>
+    <li>
+    <a title="Новая запись" href="{% url 'reestr_list:additional_fpp' %}"> Добавить запись</a>
+    </li>
+    <li>
+    <a title="Панель Администратора" href="/admin/reestr_list/register/"> Админка</a>
+    </li>
 </div>
 
 {% block body %}
-
 {% endblock body %}
 
 <div>

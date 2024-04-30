@@ -9,5 +9,5 @@ urlpatterns = [
     path("", index, name="index"),
     path("reestr/", reestr_list, name="reestr"),
     path("reestr/add/", add_to_reestr, name="additional"),
-    path("reestr/add_to/", PostAddView.as_view(), name="additional"),
+    path("reestr/add_to/", PostAddView.as_view(), name="additional_fpp"),
 ]
