@@ -125,7 +125,7 @@ class Register(models.Model):
         period = 'периодическая', 'периодическая'
         __empty__='выберите'
     kind = models.CharField(max_length=50, choices=Kinds.choices, default=Kinds.period, verbose_name='Вид поверки', blank=True, null=True)
-    date = models.DateField('Дата поверки', null=False, blank=False)
+    date = models.DateField('Дата поверки', null=True, blank=True)
     mpi = models.CharField(max_length=10, choices=(
         ('1 год', '1'),
         ('2 года', '2'),
@@ -145,7 +145,7 @@ class Register(models.Model):
     place = models.ForeignKey(Places, on_delete=models.PROTECT, verbose_name="Место проведения поверки", 
                           default=None, blank=True, null=True)
     descr = models.ForeignKey(DescriptionType, on_delete=models.PROTECT, verbose_name="Описание типа",
-                              help_text='выберите описание типа', null=False, blank=False)
+                              help_text='выберите описание типа', null=True, blank=True)
     number = models.CharField('Заводской номер', max_length=50, blank=True, null=True)
     composition = models.CharField('Состав СИ', max_length=500, blank=True, null=True)
     method = models.ForeignKey(Methodika, on_delete=models.PROTECT, verbose_name="Методика поверки",
@@ -198,9 +198,9 @@ class Register(models.Model):
                                  blank=True, null=True)
     impl_name = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Исполнитель", blank=True,
                                   null=True)
-    publish = models.DateTimeField('Создано', default=timezone.now)
-    created_at = models.DateTimeField("Создано auto now add", auto_now_add=True)
-    updated = models.DateTimeField('Изменено', auto_now=True)
+    publish = models.DateTimeField('Создано', default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField("Создано auto now add", auto_now_add=True, blank=True, null=True)
+    updated = models.DateTimeField('Изменено', auto_now=True, blank=True, null=True)
 
     class Status(models.TextChoices):
         DRAFT = 'Не загружено в АРШИН', 'Не загружено в АРШИН'
