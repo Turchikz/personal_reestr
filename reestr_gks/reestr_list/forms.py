@@ -21,7 +21,7 @@ class Add_to_registerForm(ModelForm):
 
 
 Add_to_registerFormSet = modelformset_factory(
-    Register, extra=2, fields=['kind', 'descr', 'date', 'id_numb',
+    Register, extra=1, fields=['kind', 'descr', 'date', 'id_numb',
                   'number', 
                   ], form=Add_to_registerForm, 
 )

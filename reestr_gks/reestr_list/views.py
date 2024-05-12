@@ -63,13 +63,6 @@ class Add_to_reestrView(CreateView):
         context['formset'] = Add_to_registerFormSet(queryset=Register.objects.none())
         return context
 
-    def post(self, request, *args, **kwargs):
-        formset = Add_to_registerFormSet(request.POST)
-        if formset.is_valid():
-            formset.save()
-            return self.form_valid(formset)
-        return self.render_to_response({'formset': formset})
-
     def form_valid(self, formset):
         instances = formset.save(commit=False)
         for instance in instances:
@@ -77,17 +70,16 @@ class Add_to_reestrView(CreateView):
         return self.render_to_response({'formset': formset})   
         # return HttpResponseRedirect(self.get_success_url)   
         
-    # def post(self, request, *args, **kwargs):
-    #     formset = Add_to_registerFormSet(request.POST)
-    #     if formset.is_valid():
-    #         for form in formset:
-    #             jc = form.save(commit=True)
-    #             jc.id_numb = str(jc.date)
-    #             jc.id_numb = str((Register.objects.filter(date__contains=str(jc.date.year)).count()) + 0) + '-' + \
-    #                          jc.id_numb[2] + jc.id_numb[3]
-    #             jc.save()
-    #         formset.save()
-    #         return redirect(reverse_lazy("reestr_list"))
+    def post(self, request, *args, **kwargs):
+        formset = Add_to_registerFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                jc = form.save(commit=True)
+                jc.id_numb = str(jc.date)
+                jc.id_numb = str((Register.objects.filter(date__contains=str(jc.date.year)).count()) + 0) + '-' + \
+                             jc.id_numb[2] + jc.id_numb[3]
+                jc.save()
+            formset.save()
 
-    #     return self.render_to_response({'formset': formset})
+        return self.render_to_response({'formset': formset})
    

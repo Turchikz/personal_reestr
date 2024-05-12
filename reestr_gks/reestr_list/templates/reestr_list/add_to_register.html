@@ -1,11 +1,19 @@
 {% extends "index.html" %}
 {% load static %}
+{% block head %}
+<script type="text/javascript" src={% static "reestr_list/js/add_to_register.js" %}></script>
+{% endblock head %}
+
+
+
 {% block title %}
     Добавление в реестр
 {% endblock title %}
 
 {% block body %}
-{% comment %} <div>
+
+ {% comment %} 
+<div>
     {{ formset.management_form }}
    
 
@@ -89,15 +97,30 @@
 </div> 
 {% endcomment %}
 
- <div>
-    <form method="post">
+<div>
+    <form id="form-container" method="post">
     {{ formset.management_form }}
+    <table>
     {% for form in formset %}
-        {% csrf_token %}
-        <p>{{ form }}</p>
-    {% endfor %}
+    {% csrf_token %}
 
+    <tr>
+        <div class="reestr-form">
+            <td>
+                {{ form.descr }}
+                {{ form.date }}
+                
+    
+            </td>
+            
+        </div>
+
+    </tr>
+    {% endfor %}
+    
+    </table>
+    <button id="add-form" type='button'>+</button>
     <button type="submit">Сохранить</button>
     </form>
-</div> 
+</div>
 {% endblock body %}
