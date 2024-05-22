@@ -3,3 +3,4 @@
 /reestr_gks/reestr_list/migrations/*
 /reestr_gks/reestr_list/management/commands/__pycache__
 .venv/*
+.prettierignore

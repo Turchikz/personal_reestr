@@ -12,7 +12,6 @@
 
 {% block body %}
 
- {% comment %} 
 <div>
     {{ formset.management_form }}
    
@@ -60,19 +59,16 @@
                 <td>
                     {{ form.date }}
                 </td>
-                {% comment %} <td>
                     {{ form.mpi }}
                 </td>
                 <td>
                     {{ form.until }}
                 </td>
-                {% comment %} <td>
                     {{ form.name }}
                 </td>
                 <td>
                     {{ form.modif }}
                 </td>
-                {% comment %} <td>
                     {{ form.owner }}
                 </td>
                 <td>
@@ -95,9 +91,8 @@
     </form>
 
 </div> 
-{% endcomment %}
 
-<div>
+{% comment %} <div>
     <form id="form-container" method="post">
     {{ formset.management_form }}
     <table>
@@ -122,5 +117,5 @@
     <button id="add-form" type='button'>+</button>
     <button type="submit">Сохранить</button>
     </form>
-</div>
+</div> {% endcomment %}
 {% endblock body %}
