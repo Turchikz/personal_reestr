@@ -10,4 +10,5 @@ urlpatterns = [
     path("reestr/", reestr_list, name="reestr_list"),
     # path("reestr/add/", Add_to_reestrView.as_view(), name="add_to_register"),
     path("reestr/add/", Add_to_reestrView.as_view(), name="add_to_register"),
+    
 ]
