@@ -3,7 +3,7 @@ name = "reestr-gks"
 version = "0.1.0"
 description = ""
 authors = ["Turchikz <saitov.artur96@mail.ru>"]
-'readme = "README.md"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
